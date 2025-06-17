@@ -12,6 +12,7 @@ const Home = () => {
   const [blogList, setBlogList] = useState([]);
   const [user, setUser] = useState(null);
   const [listOfBlogs, setListOfBlogs] = useState([])
+  const [articles, setArticles] = useState([])
   
   useEffect(() => {
     fetch(`${API_URL}/blogs`)
@@ -29,6 +30,15 @@ const Home = () => {
     return () => unsubscribe();
   }, []);
 
+
+    useEffect(()=>{
+      fetch(`https://dev.to/api/articles`)
+      .then((res) => res.json())
+      .then((data) => setArticles(data))
+      .catch((error) => console.error("Error al cargar blogs:", error));
+    },[])
+
+  
   return (
     <div>
       <h1>Bienvenido a Home</h1>

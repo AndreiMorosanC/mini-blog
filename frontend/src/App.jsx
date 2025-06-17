@@ -17,7 +17,7 @@ import PrivateRoute from "./Componets/PrivateRouteMain/PrivateRoute";
 
 function App() {
   return (
-    <div className="min-h-screen bg-[#090631]">
+    <div className="min-h-screen bg-[#000000]">
 
       <BrowserRouter>
       <NavBar/>

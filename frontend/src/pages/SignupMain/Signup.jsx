@@ -1,22 +1,35 @@
-import { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../service/firebaseConfig";
-import { useNavigate, Link } from "react-router-dom";
+import { useState } from 'react';
+import { createUserWithEmailAndPassword, getIdToken  } from 'firebase/auth';
+import { auth } from '../../service/firebaseConfig';
+import { useNavigate, Link } from 'react-router-dom';
 
 function Signup() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const API_URL = import.meta.env.VITE_API_URL;
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      console.log("Usuario registrado correctamente");
-      navigate("/");
+       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+      console.log('Usuario registrado correctamente');
+
+       const token = await getIdToken(user);
+      await fetch(`${API_URL}/api/users`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({}),
+      });
+
+      navigate('/');
     } catch (error) {
-      console.error("Error registrando usuario:", error.message);
+      console.error('Error registrando usuario:', error.message);
     }
   };
 
@@ -52,7 +65,7 @@ function Signup() {
 
             <Link to="/Login" className="flex-1">
               <button className="w-full bg-gradient-to-br from-purple-600 to-blue-500 text-white py-2 rounded hover:opacity-90 transition">
-              Login
+                Login
               </button>
             </Link>
           </div>

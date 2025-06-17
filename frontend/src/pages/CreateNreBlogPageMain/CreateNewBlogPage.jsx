@@ -1,17 +1,16 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 const API_URL = import.meta.env.VITE_API_URL;
-import { auth } from "../../service/firebaseConfig";
-import { getIdToken } from "firebase/auth";
-
+import { auth } from '../../service/firebaseConfig';
+import { getIdToken } from 'firebase/auth';
 
 const CreateNewBlogPage = () => {
   const navigate = useNavigate();
 
   const [newBlog, setNewBlog] = useState({
-    title: "",
-    text: "",
-    img: "",
+    title: '',
+    text: '',
+    img: '',
   });
 
   const handleChange = (e) => {
@@ -22,23 +21,30 @@ const CreateNewBlogPage = () => {
 
     const user = auth.currentUser;
     if (!user) {
-      console.error("Usuario no autenticado");
+      console.error('Usuario no autenticado');
       return;
     }
 
     const token = await getIdToken(user);
 
-    const res = await fetch(`${API_URL}/blogs`, {
-      method: "POST",
+    const res = await fetch(`${API_URL}/api/blogs`, {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, 
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(newBlog),
     });
 
     const data = await res.json();
-    navigate("/");
+    console.log('Respuesta del servidor:', res.status, data);
+
+    if (res.ok) {
+      navigate('/');
+    } else {
+      console.error('Error al crear el blog:', data);
+    }
+    navigate('/');
   };
 
   return (
@@ -64,9 +70,8 @@ const CreateNewBlogPage = () => {
           value={newBlog.img}
           onChange={handleChange}
         />
-       
+
         <button type="submit">Crear blog</button>
-        
       </form>
     </div>
   );
