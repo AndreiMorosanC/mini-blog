@@ -1,10 +1,11 @@
-import { getIdToken, onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
-import { auth } from "../../service/firebaseConfig";
-const API_URL = import.meta.env.VITE_API_URL.replace(/\/$/, "");
-import BtnEditBlog from "../../Componets/BtnEditBlogMain/BtnEditBlog";
-import BtnDeleteBlog from "../../Componets/BtnDeleteBlogMain/BtnDeleteBlog";
-import BtnSignOut from "../../Componets/BtnSignOutMain/BtnSignOut";
+import { getIdToken, onAuthStateChanged } from 'firebase/auth';
+import { useEffect, useState } from 'react';
+import { auth } from '../../service/firebaseConfig';
+const API_URL = import.meta.env.VITE_API_URL.replace(/\/$/, '');
+import BtnEditBlog from '../../Componets/BtnEditBlogMain/BtnEditBlog';
+import BtnDeleteBlog from '../../Componets/BtnDeleteBlogMain/BtnDeleteBlog';
+import BtnSignOut from '../../Componets/BtnSignOutMain/BtnSignOut';
+import CardBlogList from '../../Componets/CardBlogMain/CardBlogList';
 
 const UserProfile = () => {
   const [userBlogs, setUserBlogs] = useState([]);
@@ -27,42 +28,16 @@ const UserProfile = () => {
     return () => unsubscribe();
   }, []);
 
-  const handleDelete = async (blogId) => {
-    const user = auth.currentUser;
-    const token = await user.getIdToken();
-
-    const res = await fetch(`${API_URL}/blogs/${blogId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (res.ok) {
-      setUserBlogs((prevBlogs) =>
-        prevBlogs.filter((blog) => blog._id !== blogId)
-      );
-    } else {
-      const error = await res.json();
-      console.error("Error al eliminar:", error);
-    }
-  };
-
+ 
   return (
     <div>
-      <h1>Mis blogs</h1>
-      {userBlogs
-        .filter((blog) => blog.userId === currentUid)
-        .map((blog) => (
-          <div key={blog._id}>
-          <h2>{blog.title}</h2> 
-          <img src={blog.img || "default.jpg"} alt="blog" />
-          <p>{blog.text}</p>
-          <BtnDeleteBlog blog={blog}/>
-          <BtnEditBlog blog={blog} />
-          </div>
-      ))}
+      <h1 className="bg-white">Mis blogs</h1>
+      <CardBlogList
+        blogList={userBlogs.filter((blog) => blog.authorUid === currentUid)}
+        showButtons={true}
       
+      />
+
       <BtnSignOut />
     </div>
   );

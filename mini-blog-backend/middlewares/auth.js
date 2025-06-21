@@ -1,8 +1,7 @@
-import admin from "../firebase/admin.js"
-
+import admin from "../firebase/admin.js";
 
 const verifyToken = async (req, res, next) => {
-const authHeader = req.headers.authorization;
+  const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({ error: "Token no proporcionado" });
@@ -16,6 +15,7 @@ const authHeader = req.headers.authorization;
       uid: decodedToken.uid,
       email: decodedToken.email,
     };
+
     next();
   } catch (err) {
     return res.status(401).json({ error: "Token inválido" });

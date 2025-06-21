@@ -1,4 +1,4 @@
-import Blog from "../models/Blog.js"
+import Blog from "../models/blog.js";
 
 
 
@@ -6,7 +6,7 @@ import Blog from "../models/Blog.js"
 export const createBlog = async (req, res) =>{
 
     const {title, text, img} = req.body;
-    const {uid} = req.firebaseUser;
+    const {uid,email} = req.firebaseUser;
 
     if(!title || !text || !img){
         return res.status(400).json({error : "faltan campos obligatorios"})
@@ -18,7 +18,7 @@ export const createBlog = async (req, res) =>{
                 text,
                 img,
                 authorUid: uid,
-                authorName: dbUser.username,
+                authorName: email,
             });
             const saveBlog = await newBlog.save();
             res.status(201).json(saveBlog);
@@ -26,3 +26,55 @@ export const createBlog = async (req, res) =>{
             res.status(500).json({error: "Error al guardar el blog"})
         }
 } 
+
+
+
+export const updateBlog =  async(req,res)=>{
+     try {
+        // ⚡️ Cargamos el blog
+        const blog = await Blog.findById(req.params.id);
+        if (!blog) {
+          return res.status(404).json({ error: "Blog not found" });
+        }
+    
+        // 🔒 VALIDACIÓN: solo el creador puede editarlo
+        if (blog.userId !== req.user.uid) {
+          return res.status(403).json({ error: "Forbidden: no eres el autor" });
+        }
+    
+        // Si pasa la validación, aplicamos los cambios
+        blog.title = req.body.title ?? blog.title;
+        blog.text = req.body.text ?? blog.text;
+        blog.img = req.body.img ?? blog.img;
+    
+        const updated = await blog.save();
+        res.json(updated);
+      } catch (err) {
+        console.error("❌ Error al editar blog:", err);
+        res.status(500).json({ error: "Error editing blog" });
+      }
+
+
+}
+
+
+export const DeleteBlog = async(req,res)=> {
+    const id  = req.params.id;
+      try {
+        // ⚡️ Cargamos el blog
+        const blog = await Blog.findById(id);
+        if (!blog) return res.status(404).json({ error: "Blog no encontrado" });
+    
+        // 🔒 VALIDACIÓN: solo el creador puede borrarlo
+        if (blog.userId !== req.user.uid) {
+          return res.status(403).json({ error: "Forbidden: no eres el autor" });
+        }
+    
+        // Si pasa la validación, lo borramos
+        await blog.deleteOne();
+        res.json({ message: "Blog eliminado correctamente" });
+      } catch (err) {
+        res.status(500).json({ error: "Error al eliminar el blog" });
+      }
+
+}

@@ -26,6 +26,7 @@ const CreateNewBlogPage = () => {
     }
 
     const token = await getIdToken(user);
+    console.log(token)
 
     const res = await fetch(`${API_URL}/api/blogs`, {
       method: 'POST',

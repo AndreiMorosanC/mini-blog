@@ -5,6 +5,7 @@ import { auth } from "../../service/firebaseConfig";
 import BtnUserProfile from "../../Componets/BtnUserProfileMain/BtnUserProfile";
 import CardBlog from "../../Componets/CardBlogMain/CardBlog";
 import BtnSignUp from "../../Componets/BtnSignUpMain/BtnSignUp";
+import CardBlogList from "../../Componets/CardBlogMain/CardBlogList";
 
 const Home = () => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -54,7 +55,7 @@ const Home = () => {
       )}
 
       
-      <CardBlog blogList={blogList}/>
+      <CardBlogList blogList={blogList}/>
     </div>
   );
 };
