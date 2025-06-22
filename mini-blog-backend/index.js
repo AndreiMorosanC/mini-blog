@@ -19,8 +19,6 @@ mongoose
   .then(() => console.log("✅ Conectado a MongoDB Atlas"))
   .catch((err) => console.error("❌ Error al conectar MongoDB:", err));
 
-
-
 app.get("/blogs", async (req, res) => {
   try {
     const blogs = await Blog.find().sort({ createdAt: -1 });
@@ -29,36 +27,6 @@ app.get("/blogs", async (req, res) => {
     res.status(500).json({ error: "Error al obtener los blogs" });
   }
 });
-
-app.get("/myblogs", verifyToken, async (req, res) => {
-  try {
-    const blogs = await Blog.find({ authorUid: req.firebaseUser.uid }).sort({
-      createdAt: -1,
-    });
-    res.json(blogs);
-  } catch (err) {
-    res.status(500).json({ error: "Error al obtener tus blogs" });
-  }
-});
-
-
-app.get("/blogs/:id", async (req, res) => {
-  try {
-    const blog = await Blog.findById(req.params.id);
-    if (!blog) {
-      return res.status(404).json({ error: "Blog not found" });
-    }
-    res.json(blog);
-  } catch (err) {
-    res.status(500).json({ error: "Error fetching blog" });
-  }
-});
-
-app.put("/api", routes)
-app.delete("/api", routes)
-
-
-
 
 app.use("/api", routes);
 

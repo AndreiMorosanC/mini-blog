@@ -3,7 +3,7 @@ import useMaxChars from "../../hooks/useMaxChars";
 import BtnDeleteBlog from "../BtnDeleteBlogMain/BtnDeleteBlog";
 import BtnEditBlog from "../BtnEditBlogMain/BtnEditBlog";
 
-const CardBlog = ({ blog, showButtons = false, onDelete }) => {
+const CardBlog = ({ blog, showButtons = false, onDeleteBlog }) => {
   const maxChars = useMaxChars(80, 200);
 
   return (
@@ -17,7 +17,7 @@ const CardBlog = ({ blog, showButtons = false, onDelete }) => {
       </p>
 
       <Link
-        to={`/Blogs/${blog._id}`}
+        to={`/blogs/${blog._id}`}
         className="mt-auto inline-block text-center px-4 py-2
                    bg-gradient-to-br from-purple-600 to-blue-500
                    text-white font-medium rounded-lg
@@ -28,7 +28,7 @@ const CardBlog = ({ blog, showButtons = false, onDelete }) => {
 
       {showButtons && (
         <div className="flex gap-2 mt-4">
-          <BtnDeleteBlog blog={blog}/>
+          <BtnDeleteBlog blog={blog} onDelete={onDeleteBlog} />
           <BtnEditBlog/>
         </div>
       )}

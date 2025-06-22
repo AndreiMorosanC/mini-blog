@@ -1,6 +1,6 @@
-import CardBlog from "./CardBlog";
+import CardBlog from './CardBlog';
 
-const CardBlogList = ({ blogList, showButtons = false, onDelete }) => {
+const CardBlogList = ({ blogList, showButtons = false, onDeleteBlog }) => {
   return (
     <div className="container mx-auto px-4">
       <div className="grid justify-items-center grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6">
@@ -9,7 +9,7 @@ const CardBlogList = ({ blogList, showButtons = false, onDelete }) => {
             key={blog._id}
             blog={blog}
             showButtons={showButtons}
-            
+            onDeleteBlog={onDeleteBlog}
           />
         ))}
       </div>

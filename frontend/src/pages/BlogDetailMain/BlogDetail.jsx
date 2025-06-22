@@ -9,7 +9,7 @@ function BlogDetail() {
 
   
   useEffect(() => {
-    fetch(`${API_URL}/blogs/${id}`)
+    fetch(`${API_URL}/api/blogs/${id}`)
       .then(res => {
         if (!res.ok) throw new Error("No encontrado")
         return res.json()

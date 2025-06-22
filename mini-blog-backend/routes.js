@@ -1,6 +1,6 @@
 import express from "express"
 
-import {createBlog, DeleteBlog, updateBlog} from "./controllers/BlogControler.js"
+import {createBlog, DeleteBlog, getBlogById, getUserBlogs, updateBlog} from "./controllers/BlogControler.js"
 import { NewUser } from "./controllers/UserControler.js";
 import verifyToken from "./middlewares/auth.js"
 
@@ -12,6 +12,7 @@ routes.put("/blogs/:id", verifyToken, updateBlog);
 
 routes.delete("/blogs/:id", verifyToken,DeleteBlog)
 routes.post("/users", verifyToken, NewUser);
-
+routes.get("/myblogs", verifyToken, getUserBlogs)
+routes.get("/blogs/:id", getBlogById);
 
 export default routes

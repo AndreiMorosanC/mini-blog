@@ -15,7 +15,7 @@ const UserProfile = () => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         const token = await getIdToken(user);
-        const res = await fetch(`${API_URL}/myblogs`, {
+        const res = await fetch(`${API_URL}/api/myblogs`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -28,14 +28,15 @@ const UserProfile = () => {
     return () => unsubscribe();
   }, []);
 
- 
   return (
     <div>
       <h1 className="bg-white">Mis blogs</h1>
       <CardBlogList
         blogList={userBlogs.filter((blog) => blog.authorUid === currentUid)}
         showButtons={true}
-      
+        onDeleteBlog={(id) => {
+          setUserBlogs((prev) => prev.filter((blog) => blog._id !== id));
+        }}
       />
 
       <BtnSignOut />

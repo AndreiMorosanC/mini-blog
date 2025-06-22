@@ -66,7 +66,7 @@ export const DeleteBlog = async(req,res)=> {
         if (!blog) return res.status(404).json({ error: "Blog no encontrado" });
     
         // 🔒 VALIDACIÓN: solo el creador puede borrarlo
-        if (blog.userId !== req.user.uid) {
+        if (blog.authorUid !== req.firebaseUser.uid) {
           return res.status(403).json({ error: "Forbidden: no eres el autor" });
         }
     
@@ -78,3 +78,27 @@ export const DeleteBlog = async(req,res)=> {
       }
 
 }
+
+export const getUserBlogs = async (req, res) => {
+  try {
+    const blogs = await Blog.find({ authorUid: req.firebaseUser.uid }).sort({
+      createdAt: -1,
+    });
+    res.json(blogs);
+  } catch (err) {
+    res.status(500).json({ error: "Error al obtener tus blogs" });
+  }
+};
+
+
+export const getBlogById = async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+    if (!blog) {
+      return res.status(404).json({ error: "Blog not found" });
+    }
+    res.json(blog);
+  } catch (err) {
+    res.status(500).json({ error: "Error fetching blog" });
+  }
+};
