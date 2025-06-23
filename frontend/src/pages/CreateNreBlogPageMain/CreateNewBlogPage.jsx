@@ -1,52 +1,34 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-const API_URL = import.meta.env.VITE_API_URL;
-import { auth } from '../../service/firebaseConfig';
-import { getIdToken } from 'firebase/auth';
+import { useBlogForm } from '../../hooks/useBlogForm';
+import TagsList from '../../Componets/TagsMain/TagsList';
+
+
 
 const CreateNewBlogPage = () => {
   const navigate = useNavigate();
 
-  const [newBlog, setNewBlog] = useState({
-    title: '',
-    text: '',
-    img: '',
-  });
+  const {
+    title, setTitle,
+    text, setText,
+    tags, setTags,
+    img,
+    setImg,
+    submitBlog,
+  } = useBlogForm();
 
-  const handleChange = (e) => {
-    setNewBlog({ ...newBlog, [e.target.name]: e.target.value });
-  };
+  
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault(); 
+  try {
+    await submitBlog();
+    navigate("/");
+  } catch (err) {
+    console.error(err.message);
+    
+  }
+};
 
-    const user = auth.currentUser;
-    if (!user) {
-      console.error('Usuario no autenticado');
-      return;
-    }
-
-    const token = await getIdToken(user);
-    console.log(token)
-
-    const res = await fetch(`${API_URL}/api/blogs`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(newBlog),
-    });
-
-    const data = await res.json();
-    console.log('Respuesta del servidor:', res.status, data);
-
-    if (res.ok) {
-      navigate('/');
-    } else {
-      console.error('Error al crear el blog:', data);
-    }
-    navigate('/');
-  };
 
   return (
     <div className="h-150 w-5/5 sm:w-5/6 lg:w-3/5 bg-amber-50 mx-auto mt-20 flex  justify-center rounded-md">
@@ -55,24 +37,27 @@ const CreateNewBlogPage = () => {
           type="text"
           name="title"
           placeholder="Título"
-          value={newBlog.title}
-          onChange={handleChange}
+          value={title}
+          onChange={setTitle}
         />
         <textarea
           name="text"
           placeholder="Contenido"
-          value={newBlog.text}
-          onChange={handleChange}
+          value={text}
+          onChange={setText}
         />
         <input
           type="text"
           name="img"
           placeholder="URL de imagen"
-          value={newBlog.img}
-          onChange={handleChange}
+          value={img}
+          onChange={setImg}
         />
+        <TagsList selectedTags={tags} onChange={setTags} />
 
-        <button type="submit">Crear blog</button>
+         <button type='submit' className="btn-primary mt-4">
+        Publicar blog
+      </button>
       </form>
     </div>
   );

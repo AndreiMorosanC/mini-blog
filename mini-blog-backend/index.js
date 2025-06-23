@@ -1,12 +1,12 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import admin from "./firebase/admin.js";
+
 import dotenv from "dotenv";
 import Blog from "./models/blog.js";
-import verifyToken from "./middlewares/auth.js";
+
 import routes from "./routes.js";
-import { updateBlog } from "./controllers/BlogControler.js";
+
 
 dotenv.config();
 
