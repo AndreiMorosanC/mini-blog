@@ -5,7 +5,7 @@ import Blog from "../models/blog.js";
 
 export const createBlog = async (req, res) =>{
 
-    const {title, text, img} = req.body;
+    const {title, text, img, tags} = req.body;
     const {uid,email} = req.firebaseUser;
 
     if(!title || !text || !img){
@@ -19,6 +19,7 @@ export const createBlog = async (req, res) =>{
                 img,
                 authorUid: uid,
                 authorName: email,
+                tags: tags,
             });
             const saveBlog = await newBlog.save();
             res.status(201).json(saveBlog);

@@ -23,6 +23,7 @@ const TagsList = ({ selectedTags, setSelectedTags }) => {
   return (
     <div className="relative inline-block text-left">
       <button
+        type='button'
         onClick={() => setOpen(!open)}
         className="px-4 py-2 bg-blue-600 text-white rounded"
       >
@@ -37,7 +38,11 @@ const TagsList = ({ selectedTags, setSelectedTags }) => {
             {tags.map(({ name }) => (
               <li
                 key={name}
-                onClick={() => toggleTag(name)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  toggleTag(name);
+                }}
                 className="flex items-center gap-2 cursor-pointer px-2 py-1 hover:bg-gray-100"
               >
                 <input
@@ -48,13 +53,18 @@ const TagsList = ({ selectedTags, setSelectedTags }) => {
                 <span>{name}</span>
               </li>
             ))}
-            <button
-              onClick={() => onConfirm(selectedTags)}
-              className="mt-2 px-4 py-2 bg-blue-600 text-white rounded"
-            >
-              Confirmar
-            </button>
           </ul>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setOpen(false);
+            }}
+            className="mt-2 px-4 py-2 bg-blue-600 text-white rounded"
+          >
+            Confirmar
+          </button>
         </div>
       )}
     </div>

@@ -17,17 +17,24 @@ const CreateNewBlogPage = () => {
     submitBlog,
   } = useBlogForm();
 
-  
+
+
+
+
   const handleSubmit = async (e) => {
   e.preventDefault(); 
   try {
     await submitBlog();
+    console.log(tags)
     navigate("/");
   } catch (err) {
     console.error(err.message);
     
   }
-};
+};  
+
+
+
 
 
   return (
@@ -38,24 +45,24 @@ const CreateNewBlogPage = () => {
           name="title"
           placeholder="Título"
           value={title}
-          onChange={setTitle}
+          onChange={(e) => setTitle(e.target.value)}
         />
         <textarea
           name="text"
           placeholder="Contenido"
           value={text}
-          onChange={setText}
-        />
+          onChange={(e) => setText(e.target.value)}
+        />  
         <input
           type="text"
           name="img"
           placeholder="URL de imagen"
           value={img}
-          onChange={setImg}
+          onChange={(e) => setImg(e.target.value)}
         />
-        <TagsList selectedTags={tags} onChange={setTags} />
+        <TagsList selectedTags={tags} setSelectedTags={setTags} />
 
-         <button type='submit' className="btn-primary mt-4">
+        <button type='submit' className="btn-primary mt-4">
         Publicar blog
       </button>
       </form>

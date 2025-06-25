@@ -17,8 +17,8 @@ export function useBlogForm() {
   };
 
   const submitBlog = async () => {
-    const blogData = { title, text, img, tags };
-
+    const blogData = { title, text, img,tags };
+    console.log("Datos enviados al backend:", blogData);
     const user = auth.currentUser;
     if (!user) {
       console.error('Usuario no autenticado');
@@ -26,8 +26,7 @@ export function useBlogForm() {
     }
 
     const token = await getIdToken(user);
-    console.log(token);
-
+  
     const res = await fetch(`${API_URL}/api/blogs`, {
       method: 'POST',
       headers: {
@@ -38,6 +37,7 @@ export function useBlogForm() {
     });
 
     const data = await res.json();
+    
     console.log('Respuesta del servidor:', res.status, data);
 
     if (!res.ok) {

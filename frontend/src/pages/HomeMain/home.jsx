@@ -7,6 +7,7 @@ import CardBlog from "../../Componets/CardBlogMain/CardBlog";
 import BtnSignUp from "../../Componets/BtnSignUpMain/BtnSignUp";
 import CardBlogList from "../../Componets/CardBlogMain/CardBlogList";
 import TagsList from "../../Componets/TagsMain/TagsList";
+import CardBlogLogic from "../../Componets/CardBlogMain/CardBlogLogic";
 
 const Home = () => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -55,8 +56,8 @@ const Home = () => {
         <h2>Por favor, regístrate o inicia sesión</h2>
       )}
 
-      <TagsList selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>
-      <CardBlogList blogList={blogList}/>
+     
+      <CardBlogLogic/>
     </div>
   );
 };
