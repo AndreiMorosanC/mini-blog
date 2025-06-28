@@ -24,7 +24,7 @@ export default function NavBar() {
   );
 
   return (
-    <Disclosure as="nav" className="relative text-white bg-black  border-b-2 border-b-[#7dd3fc] drop-shadow-[0_0_8px_#7dd3fc]">
+    <Disclosure as="nav" className="relative text-white bg-black  border-b-2 border-b-white drop-shadow-[0_0_8px_#7dd3fc]">
       {({ open }) => (
         <>
           <div className="mx-auto  px-4 sm:px-6 ">

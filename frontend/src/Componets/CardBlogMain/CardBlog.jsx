@@ -7,26 +7,25 @@ const CardBlog = ({ blog, showButtons = false, onDeleteBlog }) => {
   const maxChars = useMaxChars(80, 200);
 
   return (
-    <article className="bg-white border rounded-lg shadow p-3 flex flex-col w-5/5 md:w-4/5 lg:w-4/5">
-      <h2 className="text-2xl font-bold mb-4">{blog.title}</h2>
-      <p className="flex-1 mb-6 text-red-50">
+    <article className="bg-white border rounded-lg shadow p-5 flex flex-col w-5/5 md:w-4/5 lg:w-2/4">
+      <Link
+        to={`/blogs/${blog._id}`}
+        state={{ blog }}
+        className="inline-block w-fit"
+      >
+        { <h2 className="text-2xl font-bold mb-4 w-fit">{blog.title}</h2>}
+      </Link>
+     
+      <h2>{Array.isArray(blog.tags) ? blog.tags.join(', ') : 'Sin tags'}</h2>
+      <p className="flex-1 mb-6 text-black">
         {blog.text
           ? blog.text.slice(0, maxChars) +
             (blog.text.length > maxChars ? '…' : '')
           : 'Sin contenido'}
       </p>
-      <h2>{Array.isArray(blog.tags) ? blog.tags.join(', ') : 'Sin tags'}</h2>
+      
 
-      <Link
-        to={`/blogs/${blog._id}`}
-        state={{ blog }}
-        className="mt-auto inline-block text-center px-4 py-2
-                   bg-gradient-to-br from-purple-600 to-blue-500
-                   text-white font-medium rounded-lg
-                   hover:opacity-90 transition"
-      >
-        Ver más
-      </Link>
+      
 
       {showButtons && (
         <div className="flex gap-2 mt-4">

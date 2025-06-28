@@ -10,19 +10,14 @@ import TagsList from "../../Componets/TagsMain/TagsList";
 import CardBlogLogic from "../../Componets/CardBlogMain/CardBlogLogic";
 
 const Home = () => {
-  const API_URL = import.meta.env.VITE_API_URL;
-
-  const [blogList, setBlogList] = useState([]);
   const [user, setUser] = useState(null);
-  const [listOfBlogs, setListOfBlogs] = useState([])
-  const [articles, setArticles] = useState([])
-  const [selectedTags, setSelectedTags] = useState([])
-  useEffect(() => {
-    fetch(`${API_URL}/blogs`)
-      .then((res) => res.json())
-      .then((data) => setBlogList(data))
-      .catch((error) => console.error("Error al cargar blogs:", error));
-  }, []);
+
+  
+
+
+
+  
+  
 
   
   useEffect(() => {
@@ -34,12 +29,6 @@ const Home = () => {
   }, []);
 
 
-    useEffect(()=>{
-      fetch(`https://dev.to/api/articles`)
-      .then((res) => res.json())
-      .then((data) => setArticles(data))
-      .catch((error) => console.error("Error al cargar blogs:", error));
-    },[])
 
     
   return (
