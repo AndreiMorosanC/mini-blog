@@ -30,33 +30,29 @@ export const createBlog = async (req, res) =>{
 
 
 
-export const updateBlog =  async(req,res)=>{
-     try {
-        // ⚡️ Cargamos el blog
-        const blog = await Blog.findById(req.params.id);
-        if (!blog) {
-          return res.status(404).json({ error: "Blog not found" });
-        }
-    
-        // 🔒 VALIDACIÓN: solo el creador puede editarlo
-        if (blog.userId !== req.user.uid) {
-          return res.status(403).json({ error: "Forbidden: no eres el autor" });
-        }
-    
-        // Si pasa la validación, aplicamos los cambios
-        blog.title = req.body.title ?? blog.title;
-        blog.text = req.body.text ?? blog.text;
-        blog.img = req.body.img ?? blog.img;
-    
-        const updated = await blog.save();
-        res.json(updated);
-      } catch (err) {
-        console.error("❌ Error al editar blog:", err);
-        res.status(500).json({ error: "Error editing blog" });
-      }
+export const updateBlog = async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+    if (!blog) {
+      return res.status(404).json({ error: "Blog not found" });
+    }
 
+    if (blog.authorUid !== req.firebaseUser.uid) {
+      return res.status(403).json({ error: "Forbidden: no eres el autor" });
+    }
 
-}
+    blog.title = req.body.title ?? blog.title;
+    blog.text = req.body.text ?? blog.text;
+    blog.img = req.body.img ?? blog.img;
+
+    const updated = await blog.save();
+    res.json(updated);
+  } catch (err) {
+    console.error("❌ Error al editar blog:", err);
+    res.status(500).json({ error: "Error editing blog" });
+  }
+};
+
 
 
 export const DeleteBlog = async(req,res)=> {

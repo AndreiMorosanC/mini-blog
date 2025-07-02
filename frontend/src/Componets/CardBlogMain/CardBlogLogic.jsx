@@ -3,8 +3,8 @@ import CardBlog from './CardBlog';
 
 
 
-const CardBlogLogic = () => {
-  const { blogs, loading } = useAllBlogs();
+const CardBlogLogic = ({activeTag}) => {
+  const { blogs, loading } = useAllBlogs(activeTag);
 
   if (loading) return <p>Cargando blogs...</p>;
 
