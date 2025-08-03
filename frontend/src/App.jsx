@@ -9,18 +9,19 @@ import React from "react";
 import "./App.css";
 import EditBlog from "./pages/EditBlogMain/EditBlog";
 import BlogDetail from "./pages/BlogDetailMain/BlogDetail";
-import NavBar from "./Componets/NavBarMain/NavBar";
+
 import PrivateRoute from "./Componets/PrivateRouteMain/PrivateRoute";
+import NavBarV2 from "./Componets/NavBarMain/NavBarV2";
 
 
 
 
 function App() {
   return (
-    <div className="min-h-screen bg-[#000000]">
+    <div className="min-h-screen bg-[#000D2D]">
 
       <BrowserRouter>
-      <NavBar/>
+      <NavBarV2/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/createNewBlogPage" element={

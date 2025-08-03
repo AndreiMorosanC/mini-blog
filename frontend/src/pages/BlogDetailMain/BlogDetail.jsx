@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import useAllBlogs from '../../hooks/useAllBlogs';
+import CommentSection from '../../Componets/CommentSectionMain/CommentSection';
 
 function BlogDetail() {
   const { id } = useParams();
@@ -13,7 +14,8 @@ function BlogDetail() {
   const tags = Array.isArray(blog.tags) ? blog.tags : [];
 
   return (
-    <article className="w-5/5 sm:w-4/5 lg:w-2/4 mx-auto p-6 bg-gray-100 min-h-150 sm:mt-15 sm:mb-15  ">
+   <div>
+     <article className="w-5/5 sm:w-4/5 lg:w-2/4 mx-auto p-6 bg-gray-100 min-h-150 sm:mt-15 sm:mb-15  ">
       {blog.img && (
         <img
           src={blog.img}
@@ -42,6 +44,9 @@ function BlogDetail() {
         ))}
       </div>
     </article>
+    <CommentSection/>
+   </div>
+
   );
 }
 

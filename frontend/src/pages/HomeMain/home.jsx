@@ -21,11 +21,11 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Bienvenido a Home</h1>
+      {/*<h1>Bienvenido a Home</h1>*/}
 
       {user ? (
         <>
-          <h2>Bienvenido, {user.email}</h2>
+          {/*<h2>Bienvenido, {user.email}</h2>*/}
         </>
       ) : (
         <h2>Por favor, regístrate o inicia sesión</h2>

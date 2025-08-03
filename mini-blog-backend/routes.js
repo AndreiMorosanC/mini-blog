@@ -4,7 +4,7 @@ import {createBlog, DeleteBlog, getBlogById, getUserBlogs, updateBlog} from "./c
 import { getAllTags, createTag } from "./controllers/TagControler.js";
 import { NewUser } from "./controllers/UserControler.js";
 import verifyToken from "./middlewares/auth.js"
-
+import {createComment} from "./controllers/CommentsControler.js" 
 
 const routes = express.Router();
 
@@ -19,5 +19,7 @@ routes.delete("/blogs/:id", verifyToken,DeleteBlog)
 routes.get("/myblogs", verifyToken, getUserBlogs)
 routes.get("/blogs/:id", getBlogById);
 
+
+routes.post("/comments", verifyToken, createComment)
 
 export default routes
